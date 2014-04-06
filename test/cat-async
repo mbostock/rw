@@ -1,0 +1,10 @@
+#!/usr/bin/env node
+
+var rw = require("../");
+
+rw.read(process.argv[2] || "/dev/stdin", "utf8", function(error, contents) {
+  if (error) throw error;
+  rw.write("/dev/stdout", contents, "utf8", function(error) {
+    if (error) throw error;
+  });
+});

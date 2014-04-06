@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+
+var rw = require("../");
+
+// rw.read("/dev/stdin", "utf8", function(error, contents) {
+//   if (error) throw error;
+//   rw.write("/dev/stdout", contents, "utf8", function(error) {
+//     if (error) throw error;
+//   });
+// });
+
+rw.writeSync("/dev/stdout", rw.readSync("/dev/stdin", "utf8"), "utf8");

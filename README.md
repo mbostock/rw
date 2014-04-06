@@ -35,9 +35,23 @@ process.stdin
     .setEncoding("utf8");
 ```
 
-But that’s a pain, since now your code has two different code paths for reading inputs, depending on whether you’re reading a real file or stdin.
+But that’s a pain, since now your code has two different code paths for reading inputs, depending on whether you’re reading a real file or stdin. And the code gets even more complex if you want to read that file synchronously.
 
-And the code gets even more complex if you want to read that file synchronously.
+You could also try a different pattern for writing to stdout:
+
+```js
+process.stdout.write(contents);
+```
+
+But if you try to pipe your output to `head`, you’ll get this error:
+
+```
+Error: write EPIPE
+    at errnoException (net.js:904:11)
+    at Object.afterWrite (net.js:720:19)
+```
+
+Huh.
 
 ## rw
 
@@ -55,4 +69,4 @@ And this:
 rw.writeSync("/dev/stdin", contents, "utf8");
 ```
 
-Also, **rw** automatically squashes EPIPE errors, so you can pipe the output of your program to `head` and you won’t get a spurious stack trace.
+And **rw** automatically squashes EPIPE errors, so you can pipe the output of your program to `head` and you won’t get a spurious stack trace.

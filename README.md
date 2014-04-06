@@ -55,18 +55,18 @@ Huh.
 
 ## rw
 
-The **rw** module fixes these problems. It provides an interface just like readFile, readFileSync, writeFile and writeFileSync, but these methods work the way you expect on stdin and stdout.
+The **rw** module fixes these problems. It provides an interface just like readFile, readFileSync, writeFile and writeFileSync, but these methods work the way you expect on stdin and stdout. If you use these methods on files other than /dev/stdin or /dev/stdout, they simply delegate to the fs methods, so you can trust that they behave identically to the methods you’re used to.
 
-Like this:
+For example, now you can read stdin synchronously like so:
 
 ```js
 var contents = rw.readSync("/dev/stdin", "utf8");
 ```
 
-And this:
+Or to write to stdout:
 
 ```js
-rw.writeSync("/dev/stdin", contents, "utf8");
+rw.writeSync("/dev/stdout", contents, "utf8");
 ```
 
 And **rw** automatically squashes EPIPE errors, so you can pipe the output of your program to `head` and you won’t get a spurious stack trace.

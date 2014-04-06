@@ -43,6 +43,12 @@ You could also try a different pattern for writing to stdout:
 process.stdout.write(contents);
 ```
 
+Or even:
+
+```js
+console.log(contents);
+```
+
 But if you try to pipe your output to `head`, you’ll get this error:
 
 ```

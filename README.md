@@ -75,6 +75,6 @@ Or to write to stdout:
 rw.writeSync("/dev/stdout", contents, "utf8");
 ```
 
-And **rw** automatically squashes EPIPE errors, so you can pipe the output of your program to `head` and you won’t get a spurious stack trace.
+And rw automatically squashes EPIPE errors, so you can pipe the output of your program to `head` and you won’t get a spurious stack trace.
 
-You can install **rw** as `npm install rw`.
+To install, `npm install rw`.

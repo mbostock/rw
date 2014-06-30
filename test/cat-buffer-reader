@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+
+var rw = require("../");
+
+var readBuffer = rw.bufferReader(process.argv[2] || "/dev/stdin");
+
+(function readNextChunk() {
+  readBuffer(10, function(error, chunk) {
+    if (error) throw error;
+    if (chunk == null) return;
+    process.stdout.write(chunk);
+    setTimeout(readNextChunk, 100);
+  });
+})();

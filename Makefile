@@ -4,8 +4,9 @@ all:
 
 clean:
 
-test/input.txt:
-	yes 123456789 | head -n 10000 > $@
+test/input.txt: Makefile
+	rm -f $@
+	for i in {1..10000}; do printf '%09X\n' $$RANDOM >> $@; done
 
 test: test/input.txt
 	[ "$$(test/wc-async < $<)" = "100000" ]

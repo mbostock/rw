@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+
+var rw = require("../");
+
+var read = rw.reader(process.argv[2] || "/dev/stdin");
+
+var chunks = [];
+
+(function readNextChunk() {
+  read(function(error, chunk) {
+    if (error) throw error;
+    if (chunk == null) return process.stdout.write(Buffer.concat(chunks));
+    chunks.push(chunk);
+    setImmediate(readNextChunk);
+  });
+})();

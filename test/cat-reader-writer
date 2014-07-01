@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+
+var rw = require("../");
+
+var read = rw.reader(process.argv[2] || "/dev/stdin"),
+    write = rw.writer(process.argv[3] || "/dev/stdout");
+
+(function pipeNextChunk() {
+  read(function(error, chunk) {
+    if (error) throw error;
+    write(chunk, chunk == null ? done : pipeNextChunk);
+  });
+})();
+
+function done(error) {
+  if (error) throw error;
+}

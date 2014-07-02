@@ -2,10 +2,10 @@
 
 var rw = require("../");
 
-var readBuffer = rw.bufferReader(process.argv[2] || "/dev/stdin");
+var readFixed = rw.fixedReader(process.argv[2] || "/dev/stdin");
 
 (function readNextChunk() {
-  readBuffer(10, function(error, chunk) {
+  readFixed(10, function(error, chunk) {
     if (error) throw error;
     if (chunk == null) return;
     process.stdout.write(chunk);

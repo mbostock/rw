@@ -4,6 +4,8 @@ exports.write = require("./lib/rw/write");
 exports.writeSync = require("./lib/rw/write-sync");
 
 exports.writer = require("./lib/rw/writer");
+exports.lineWriter = require("./lib/rw/line-writer");
+
 exports.reader = require("./lib/rw/reader");
 exports.lineReader = require("./lib/rw/line-reader");
 exports.fixedReader = require("./lib/rw/fixed-reader");

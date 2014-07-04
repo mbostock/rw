@@ -1,6 +1,6 @@
 {
   "name": "rw",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Wrappers of fs.{read,write}File that work for /dev/std{in,out}.",
   "keywords": [
     "fs",

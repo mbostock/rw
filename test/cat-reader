@@ -9,7 +9,7 @@ var chunks = [];
 (function readNextChunk() {
   read(function(error, chunk) {
     if (error) throw error;
-    if (chunk == null) return process.stdout.write(Buffer.concat(chunks));
+    if (chunk == null) return void process.stdout.write(Buffer.concat(chunks));
     chunks.push(chunk);
     setImmediate(readNextChunk);
   });

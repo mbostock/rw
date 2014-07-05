@@ -2,13 +2,15 @@
 
 var rw = require("../");
 
-var readFixed = rw.fixedReader(process.argv[2] || "/dev/stdin");
+var readFixed = rw.fixedReader(process.argv[2] || "/dev/stdin"),
+    write = rw.writer(process.argv[3] || "/dev/stdout");
 
 (function readNextChunk() {
-  readFixed(10, function(error, chunk) {
+  readFixed(12, function(error, chunk) {
     if (error) throw error;
-    if (chunk == null) return;
-    process.stdout.write(chunk);
-    setTimeout(readNextChunk, 100);
+    write(chunk, function(error) {
+      if (error) throw error;
+      if (chunk != null) setImmediate(readNextChunk);
+    });
   });
 })();

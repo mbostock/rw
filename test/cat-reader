@@ -6,6 +6,7 @@ var reader = rw.reader(process.argv[2] || "/dev/stdin");
 
 reader.fill(function pipe(error) {
   if (error) throw error;
-  if (reader.available) process.stdout.write(reader.read());
-  if (!reader.ended) reader.fill(pipe);
+  if (reader.available <= 0) return;
+  process.stdout.write(reader.read());
+  reader.fill(pipe);
 });

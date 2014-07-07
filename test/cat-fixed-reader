@@ -8,6 +8,6 @@ var reader = rw.reader(process.argv[2] || "/dev/stdin"),
 reader.fill(function pipe(error) {
   if (error) throw error;
   while (reader.available >= 10 && writer.available >= 10) writer.write(reader.read(10));
-  if (reader.ended) writer.end(function(error) { if (error) throw error; });
+  if (reader.ended) writer.end(function(error) { if (error) throw error; }); // TODO may need add’l writes!
   else writer.flush(function(error) { if (error) throw error; reader.fill(pipe); });
 });

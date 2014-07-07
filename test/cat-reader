@@ -2,7 +2,7 @@
 
 var rw = require("../");
 
-var reader = rw.reader(process.argv[2] || "/dev/stdin");
+var reader = rw.fileReader(process.argv[2] || "/dev/stdin");
 
 reader.fill(function pipe(error) {
   if (error) throw error;

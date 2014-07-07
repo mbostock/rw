@@ -2,7 +2,7 @@
 
 var rw = require("../");
 
-rw.read(process.argv[2] || "/dev/stdin", "utf8", function(error, contents) {
+rw.readFile(process.argv[2] || "/dev/stdin", "utf8", function(error, contents) {
   if (error) throw error;
   console.log(contents.length);
 });

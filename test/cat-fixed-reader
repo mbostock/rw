@@ -2,8 +2,8 @@
 
 var rw = require("../");
 
-var reader = rw.reader(process.argv[2] || "/dev/stdin"),
-    writer = rw.writer(process.argv[3] || "/dev/stdout");
+var reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
+    writer = rw.fileWriter(process.argv[3] || "/dev/stdout");
 
 reader.fill(function pipe(error) {
   if (error) throw error;

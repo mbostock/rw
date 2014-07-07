@@ -2,4 +2,4 @@
 
 var rw = require("../");
 
-rw.writeSync("/dev/stdout", rw.readSync(process.argv[2] || "/dev/stdin", "utf8"), "utf8");
+rw.writeFileSync("/dev/stdout", rw.readFileSync(process.argv[2] || "/dev/stdin", "utf8"), "utf8");

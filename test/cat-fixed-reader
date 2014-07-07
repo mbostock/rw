@@ -7,9 +7,7 @@ var reader = rw.reader(process.argv[2] || "/dev/stdin"),
 
 reader.fill(function pipe(error) {
   if (error) throw error;
-  console.warn("reader.available", reader.available);
   while (reader.available >= 10 && writer.available >= 10) writer.write(reader.read(10));
-  console.warn("reader.available", reader.available);
-  if (reader.ended) return writer.end(function(error) { if (error) throw error; });
-  writer.flush(function(error) { if (error) throw error; reader.fill(pipe); });
+  if (reader.ended) writer.end(function(error) { if (error) throw error; });
+  else writer.flush(function(error) { if (error) throw error; reader.fill(pipe); });
 });

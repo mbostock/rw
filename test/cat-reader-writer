@@ -8,7 +8,6 @@ var reader = rw.reader(process.argv[2] || "/dev/stdin"),
 reader.fill(function pipe(error) {
   if (error) throw error;
   if (reader.available <= 0) return writer.end(function(error) { if (error) throw error; });
-  if (writer.available < reader.available) return writer.flush(pipe);
   writer.write(reader.read());
-  reader.fill(pipe);
+  writer.flush(function(error) { if (error) throw error; reader.fill(pipe); });
 });

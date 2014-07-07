@@ -5,9 +5,20 @@ var rw = require("../");
 var reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
     writer = rw.fileWriter(process.argv[3] || "/dev/stdout");
 
-reader.fill(function pipe(error) {
+reader.fill(filled);
+
+function filled(error) {
   if (error) throw error;
   writer.write(reader.read());
-  if (reader.ended) writer.end(function(error) { if (error) throw error; });
-  else writer.flush(function(error) { if (error) throw error; reader.fill(pipe); });
-});
+  if (reader.ended) writer.end(ended);
+  else writer.flush(flushed);
+}
+
+function flushed(error) {
+  if (error) throw error;
+  reader.fill(filled);
+}
+
+function ended(error) {
+  if (error) throw error;
+}

@@ -2,15 +2,10 @@
 
 var rw = require("../");
 
-var read = rw.reader(process.argv[2] || "/dev/stdin");
+var reader = rw.reader(process.argv[2] || "/dev/stdin");
 
-var chunks = [];
-
-(function readNextChunk() {
-  read(function(error, chunk) {
-    if (error) throw error;
-    if (chunk == null) return void process.stdout.write(Buffer.concat(chunks));
-    chunks.push(chunk);
-    setImmediate(readNextChunk);
-  });
-})();
+reader.fill(function pipe(error) {
+  if (error) throw error;
+  if (reader.available) process.stdout.write(reader.read());
+  if (!reader.ended) reader.fill(pipe);
+});

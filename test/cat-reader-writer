@@ -2,16 +2,22 @@
 
 var rw = require("../");
 
-var read = rw.reader(process.argv[2] || "/dev/stdin"),
-    write = rw.writer("/dev/stdout");
+var reader = rw.reader(process.argv[2] || "/dev/stdin"),
+    writer = rw.writer(process.argv[3] || "/dev/stdout");
 
-(function pipeNextChunk() {
-  read(function(error, chunk) {
+reader.fill(function pipe(error) {
+  if (error) throw error;
+
+  if (reader.available) {
+    if (writer.available < reader.available) return writer.flush(pipe);
+    writer.write(reader.read());
+  }
+
+  if (reader.ended) return writer.end(function(error) { if (error) throw error; });
+
+  // TODO Have to flush before reading due to memory reuse.
+  writer.flush(function(error) {
     if (error) throw error;
-    write(chunk, function(error) {
-      if (error) throw error;
-      if (chunk == null) return;
-      setImmediate(pipeNextChunk);
-    });
-  });
-})();
+    reader.fill(pipe);
+  })
+});

@@ -2,16 +2,14 @@
 
 var rw = require("../");
 
-var readFixed = rw.fixedReader(process.argv[2] || "/dev/stdin"),
-    write = rw.writer(process.argv[3] || "/dev/stdout");
+var reader = rw.reader(process.argv[2] || "/dev/stdin"),
+    writer = rw.writer(process.argv[3] || "/dev/stdout");
 
-(function pipeNextChunk() {
-  readFixed(12, function(error, chunk) {
-    if (error) throw error;
-    write(chunk, function(error) {
-      if (error) throw error;
-      if (chunk == null) return;
-      setImmediate(pipeNextChunk);
-    });
-  });
-})();
+reader.fill(function pipe(error) {
+  if (error) throw error;
+  console.warn("reader.available", reader.available);
+  while (reader.available >= 10 && writer.available >= 10) writer.write(reader.read(10));
+  console.warn("reader.available", reader.available);
+  if (reader.ended) return writer.end(function(error) { if (error) throw error; });
+  writer.flush(function(error) { if (error) throw error; reader.fill(pipe); });
+});

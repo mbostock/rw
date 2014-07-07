@@ -8,7 +8,7 @@ test/input.txt: Makefile
 	rm -f $@
 	for i in {1..10000}; do printf '%09X\n' $$RANDOM >> $@; done
 
-test: test/input.txt
+test: test/input.txt test/file-reader.test
 	[ "$$(test/wc-async < $<)" = "100000" ]
 	[ "$$(test/wc-sync < $<)" = "100000" ]
 	[ "$$(test/wc-async $<)" = "100000" ]
@@ -45,6 +45,11 @@ test: test/input.txt
 	[ "$$(cat $< | head -n 100 | test/cat-async | test/wc-sync)" = "1000" ]
 	[ "$$(cat $< | head -n 100 | test/cat-sync | test/wc-async)" = "1000" ]
 	[ "$$(cat $< | head -n 100 | test/cat-sync | test/wc-sync)" = "1000" ]
+
+test/file-reader.test: test/input.txt
+	test/cat-fixed-reader $< $@.out
+	diff $< $@.out
+	rm $@.out
 
 # [ "$$(test/cat-fixed-reader < $< | test/wc-sync)" = "100000" ]
 # [ "$$(test/cat-line-reader < $< | test/wc-sync)" = "100000" ]

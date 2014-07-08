@@ -5,8 +5,8 @@ var os = require("os");
 var rw = require("../");
 
 var reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
-    parser = rw.lineParser().encoding("utf8"),
-    writer = rw.fileWriter(process.argv[3] || "/dev/stdout").encoding("utf8");
+    parser = rw.lineParser(),
+    writer = rw.fileWriter(process.argv[3] || "/dev/stdout");
 
 reader.fill(filled);
 
@@ -21,21 +21,16 @@ function pushed(error) {
   var line;
 
   while ((line = parser.pop(reader.ended)) != null) {
-    if (writer.write(line + os.EOL) == null) { // TODO if this fails, we need to rewrite this line!
-      return writer.flush(pushed);
+    if (!writer.write(line + os.EOL)) {
+      return writer.drain(pushed);
     }
   }
 
-  pulled(null);
-}
-
-function pulled(error) {
-  if (error) throw error;
   if (reader.ended) writer.end(ended);
-  else writer.flush(flushed);
+  else writer.drain(drained);
 }
 
-function flushed(error) {
+function drained(error) {
   if (error) throw error;
   reader.fill(filled);
 }

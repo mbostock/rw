@@ -12,16 +12,16 @@ function filled(error) {
   var record;
 
   while ((record = reader.read(10)) != null) {
-    if (writer.write(record) == null) { // TODO if this fails, we need to rewrite this record!
-      return writer.flush(filled);
+    if (!writer.write(record)) {
+      return writer.drain(filled);
     }
   }
 
   if (reader.ended) writer.end(ended);
-  else writer.flush(flushed);
+  else writer.drain(drained);
 }
 
-function flushed(error) {
+function drained(error) {
   if (error) throw error;
   reader.fill(filled);
 }

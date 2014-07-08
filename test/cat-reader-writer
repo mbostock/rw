@@ -11,10 +11,10 @@ function filled(error) {
   if (error) throw error;
   writer.write(reader.read());
   if (reader.ended) writer.end(ended);
-  else writer.flush(flushed);
+  else writer.drain(drained);
 }
 
-function flushed(error) {
+function drained(error) {
   if (error) throw error;
   reader.fill(filled);
 }

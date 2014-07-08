@@ -4,8 +4,8 @@ var os = require("os"),
     rw = require("../");
 
 var reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
-    parser = rw.dsvParser(),
-    writer = rw.fileWriter(process.argv[3] || "/dev/stdout");
+    writer = rw.fileWriter(process.argv[3] || "/dev/stdout"),
+    parser = rw.dsvParser();
 
 reader.fill(drain);
 
@@ -24,11 +24,6 @@ function drain(error) {
 
   if (reader.ended) return writer.end(end);
 
-  writer.drain(fill); // must drain before filling!
-}
-
-function fill(error) {
-  if (error) throw error;
   reader.fill(drain);
 }
 

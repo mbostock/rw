@@ -19,11 +19,6 @@ function drain(error) {
 
   if (reader.ended) return writer.end(end);
 
-  writer.drain(fill); // must drain before filling!
-}
-
-function fill(error) {
-  if (error) throw error;
   reader.fill(drain);
 }
 

@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+
+var rw = require("../");
+
+var reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
+    parser = rw.lineParser();
+
+reader.fill(filled);
+
+function filled(error) {
+  if (error) throw error;
+  var line;
+  parser.push(reader.read());
+  while ((line = parser.pop(reader.ended)) != null) console.log(line);
+  if (!reader.ended) reader.fill(filled);
+}

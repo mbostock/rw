@@ -33,6 +33,7 @@ test: test/input.txt test/file-reader.test
 	[ "$$(test/cat-sync < $< | test/wc-sync)" = "100000" ]
 	[ "$$(test/cat-reader < $< | test/wc-sync)" = "100000" ]
 	[ "$$(test/cat-reader-writer < $< | test/wc-sync)" = "100000" ]
+	[ "$$(test/cat-line-parser < $< | test/wc-sync)" = "100000" ]
 	[ "$$(cat $< | test/cat-async | test/wc-async)" = "100000" ]
 	[ "$$(cat $< | test/cat-async | test/wc-sync)" = "100000" ]
 	[ "$$(cat $< | test/cat-sync | test/wc-async)" = "100000" ]
@@ -50,7 +51,3 @@ test/file-reader.test: test/input.txt
 	test/cat-fixed-reader $< $@.out
 	diff $< $@.out
 	rm $@.out
-
-# [ "$$(test/cat-fixed-reader < $< | test/wc-sync)" = "100000" ]
-# [ "$$(test/cat-line-reader < $< | test/wc-sync)" = "100000" ]
-# [ "$$(test/cat-line-reader-writer < $< | test/wc-sync)" = "100000" ]

@@ -4,9 +4,9 @@ var rw = require("../");
 
 var reader = rw.fileReader(process.argv[2] || "/dev/stdin");
 
-reader.fill(writeMore);
+reader.fill(drain);
 
-function writeMore(error) {
+function drain(error) {
   if (error) throw error;
   var data = reader.read();
 
@@ -14,5 +14,5 @@ function writeMore(error) {
 
   if (reader.ended) return;
 
-  reader.fill(writeMore);
+  reader.fill(drain);
 }

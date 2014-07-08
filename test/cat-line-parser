@@ -7,14 +7,9 @@ var reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
     parser = rw.lineParser(),
     writer = rw.fileWriter(process.argv[3] || "/dev/stdout");
 
-readMore(null);
+reader.fill(drain);
 
-function readMore(error) {
-  if (error) throw error;
-  reader.fill(writeMore);
-}
-
-function writeMore(error) {
+function drain(error) {
   if (error) throw error;
   var data = reader.read(),
       line;
@@ -23,13 +18,18 @@ function writeMore(error) {
 
   while ((line = parser.pop(reader.ended)) != null) {
     if (!writer.write(line + os.EOL)) {
-      return writer.drain(writeMore);
+      return writer.drain(drain);
     }
   }
 
   if (reader.ended) return writer.end(end);
 
-  writer.drain(readMore); // must drain before filling!
+  writer.drain(fill); // must drain before filling!
+}
+
+function fill(error) {
+  if (error) throw error;
+  reader.fill(drain);
 }
 
 function end(error) {

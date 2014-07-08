@@ -2,4 +2,7 @@
 
 var fs = require("fs");
 
-fs.createReadStream(process.argv[2] || "/dev/stdin", "utf8").pipe(fs.createWriteStream(process.argv[3] || "/dev/stdout", "utf8"));
+var readStream = fs.createReadStream(process.argv[2] || "/dev/stdin", "utf8"),
+    writeStream = fs.createWriteStream(process.argv[3] || "/dev/stdout", "utf8");
+
+readStream.pipe(writeStream);

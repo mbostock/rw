@@ -9,9 +9,15 @@ reader.fill(filled);
 
 function filled(error) {
   if (error) throw error;
-  while (reader.available >= 10 && writer.available >= 10) writer.write(reader.read(10));
-  if (reader.available >= 10) writer.flush(filled);
-  else if (reader.ended) writer.end(ended);
+  var record;
+
+  while ((record = reader.read(10)) != null) {
+    if (writer.write(record) == null) { // TODO if this fails, we need to rewrite this record!
+      return writer.flush(filled);
+    }
+  }
+
+  if (reader.ended) writer.end(ended);
   else writer.flush(flushed);
 }
 

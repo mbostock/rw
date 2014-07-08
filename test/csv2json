@@ -1,0 +1,37 @@
+#!/usr/bin/env node
+
+var os = require("os"),
+    rw = require("../");
+
+var reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
+    parser = rw.dsvParser(),
+    writer = rw.fileWriter(process.argv[3] || "/dev/stdout");
+
+reader.fill(drain);
+
+function drain(error) {
+  if (error) throw error;
+  var data = reader.read(),
+      row;
+
+  if (data) parser.push(data);
+
+  while ((row = parser.pop(reader.ended)) != null) {
+    if (!writer.write(JSON.stringify(row) + os.EOL)) {
+      return writer.drain(drain);
+    }
+  }
+
+  if (reader.ended) return writer.end(end);
+
+  writer.drain(fill); // must drain before filling!
+}
+
+function fill(error) {
+  if (error) throw error;
+  reader.fill(drain);
+}
+
+function end(error) {
+  if (error) throw error;
+}

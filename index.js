@@ -10,3 +10,4 @@ exports.writeFile = require("./lib/rw/write-file");
 exports.writeFileSync = require("./lib/rw/write-file-sync");
 
 exports.lineParser = require("./lib/rw/line-parser");
+exports.dsvParser = require("./lib/rw/dsv-parser");

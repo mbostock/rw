@@ -4,10 +4,15 @@ var rw = require("../");
 
 var reader = rw.fileReader(process.argv[2] || "/dev/stdin");
 
-reader.fill(filled);
+reader.fill(writeMore);
 
-function filled(error) {
+function writeMore(error) {
   if (error) throw error;
-  process.stdout.write(reader.read());
-  if (!reader.ended) reader.fill(filled);
+  var data = reader.read();
+
+  if (data) process.stdout.write(data);
+
+  if (reader.ended) return;
+
+  reader.fill(writeMore);
 }

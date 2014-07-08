@@ -1,40 +1,37 @@
 #!/usr/bin/env node
 
-var os = require("os");
-
-var rw = require("../");
+var os = require("os"),
+    rw = require("../");
 
 var reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
     parser = rw.lineParser(),
     writer = rw.fileWriter(process.argv[3] || "/dev/stdout");
 
-reader.fill(filled);
+readMore(null);
 
-function filled(error) {
+function readMore(error) {
   if (error) throw error;
-  parser.push(reader.read());
-  pushed(null);
+  reader.fill(writeMore);
 }
 
-function pushed(error) {
+function writeMore(error) {
   if (error) throw error;
-  var line;
+  var data = reader.read(),
+      line;
+
+  if (data) parser.push(data);
 
   while ((line = parser.pop(reader.ended)) != null) {
     if (!writer.write(line + os.EOL)) {
-      return writer.drain(pushed);
+      return writer.drain(writeMore);
     }
   }
 
-  if (reader.ended) writer.end(ended);
-  else writer.drain(drained);
+  if (reader.ended) return writer.end(end);
+
+  writer.drain(readMore); // must drain before filling!
 }
 
-function drained(error) {
-  if (error) throw error;
-  reader.fill(filled);
-}
-
-function ended(error) {
+function end(error) {
   if (error) throw error;
 }

@@ -7,7 +7,7 @@ var reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
     writer = rw.fileWriter(process.argv[3] || "/dev/stdout"),
     parser = rw.lineParser();
 
-reader.fill(function drain(error) {
+reader.fill(function pipe(error) {
   if (error) throw error;
   var data = reader.read(),
       line;
@@ -16,11 +16,11 @@ reader.fill(function drain(error) {
 
   while ((line = parser.pop(reader.ended)) != null) {
     if (!writer.write(line + os.EOL)) {
-      return writer.drain(drain);
+      return writer.drain(pipe);
     }
   }
 
   if (reader.ended) return writer.end();
 
-  reader.fill(drain);
+  reader.fill(pipe);
 });

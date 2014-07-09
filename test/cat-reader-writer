@@ -5,19 +5,10 @@ var rw = require("../");
 var reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
     writer = rw.fileWriter(process.argv[3] || "/dev/stdout");
 
-reader.fill(drain);
-
-function drain(error) {
+reader.fill(function drain(error) {
   if (error) throw error;
   var data = reader.read();
-
   if (data && !writer.write(data)) return writer.drain(drain);
-
-  if (reader.ended) return writer.end(end);
-
+  if (reader.ended) return writer.end();
   reader.fill(drain);
-}
-
-function end(error) {
-  if (error) throw error;
-}
+});

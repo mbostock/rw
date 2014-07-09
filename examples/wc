@@ -5,8 +5,10 @@
 // for normal files, though this approach is still useful for streaming inputs
 // like stdin.)
 //
-// Since `pipe` is only called as after the reader is filled, reader.read is
-// guaranteed to return non-null when the reader has not yet ended.
+// Since `pipe` is only called after the reader is filled, reader.read is
+// guaranteed to return non-null when the reader has not yet ended. And since
+// reader.read is called with no length argument, it is guaranteed to return
+// null when the reader has ended.
 //
 // [1] https://en.wikipedia.org/wiki/Wc_(Unix)
 // [2] http://nodejs.org/api/fs.html#fs_fs_stat_path_callback

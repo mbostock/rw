@@ -7,9 +7,7 @@ var reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
     writer = rw.fileWriter(process.argv[3] || "/dev/stdout"),
     parser = rw.dsvParser();
 
-reader.fill(drain);
-
-function drain(error) {
+reader.fill(function pipe(error) {
   if (error) throw error;
   var data = reader.read(),
       row;
@@ -18,15 +16,11 @@ function drain(error) {
 
   while ((row = parser.pop(reader.ended)) != null) {
     if (!writer.write(JSON.stringify(row) + os.EOL)) {
-      return writer.drain(drain);
+      return writer.drain(pipe);
     }
   }
 
-  if (reader.ended) return writer.end(end);
+  if (reader.ended) return writer.end();
 
-  reader.fill(drain);
-}
-
-function end(error) {
-  if (error) throw error;
-}
+  reader.fill(pipe);
+});

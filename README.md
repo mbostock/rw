@@ -35,7 +35,7 @@ process.stdin
     .setEncoding("utf8");
 ```
 
-But that’s a pain, since now your code has two different code paths for reading inputs depending on whether you’re reading a real file or stdin. And the code gets even more complex if you want to [read that file synchronously](https://github.com/mbostock/rw/blob/master/lib/rw/read-sync.js).
+But that’s a pain, since now your code has two different code paths for reading inputs depending on whether you’re reading a real file or stdin. And the code gets even more complex if you want to [read that file synchronously](https://github.com/mbostock/rw/blob/master/lib/rw/read-file-sync.js).
 
 You could also try a different pattern for writing to stdout:
 
@@ -66,13 +66,13 @@ The **rw** module fixes these problems. It provides an interface just like readF
 For example, now you can read stdin synchronously like so:
 
 ```js
-var contents = rw.readSync("/dev/stdin", "utf8");
+var contents = rw.readFileSync("/dev/stdin", "utf8");
 ```
 
 Or to write to stdout:
 
 ```js
-rw.writeSync("/dev/stdout", contents, "utf8");
+rw.writeFileSync("/dev/stdout", contents, "utf8");
 ```
 
 And rw automatically squashes EPIPE errors, so you can pipe the output of your program to `head` and you won’t get a spurious stack trace.

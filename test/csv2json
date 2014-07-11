@@ -3,20 +3,16 @@
 var os = require("os"),
     rw = require("../");
 
-var reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
-    writer = rw.fileWriter(process.argv[3] || "/dev/stdout"),
-    parser = rw.dsvParser();
+var reader = rw.transformReader(rw.fileReader(process.argv[2] || "/dev/stdin").bufferLength(12), rw.dsvParser()),
+    writer = rw.transformWriter(rw.fileWriter(process.argv[3] || "/dev/stdout"), rw.jsonFormatter());
 
 reader.fill(function flow(error) {
   if (error) throw error;
-  var data = reader.read(),
-      row;
+  var row;
 
-  if (data) parser.push(data);
-
-  while ((row = parser.pop(reader.ended)) != null) {
-    if (!writer.write(JSON.stringify(row) + os.EOL)) {
-      return writer.drain(flow);
+  while ((row = reader.read(reader.ended)) != null) {
+    if (!writer.write(row)) {
+      return writer.drain(pipe);
     }
   }
 

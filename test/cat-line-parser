@@ -1,22 +1,17 @@
 #!/usr/bin/env node
 
-var os = require("os"),
-    rw = require("../");
+var rw = require("../");
 
-var reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
-    writer = rw.fileWriter(process.argv[3] || "/dev/stdout"),
-    parser = rw.lineParser();
+var reader = rw.transformReader(rw.fileReader(process.argv[2] || "/dev/stdin"), rw.lineParser()),
+    writer = rw.transformWriter(rw.fileWriter(process.argv[3] || "/dev/stdout"), rw.lineFormatter());
 
 reader.fill(function flow(error) {
   if (error) throw error;
-  var data = reader.read(),
-      line;
+  var line;
 
-  if (data) parser.push(data);
-
-  while ((line = parser.pop(reader.ended)) != null) {
-    if (!writer.write(line + os.EOL)) {
-      return writer.drain(flow);
+  while ((line = reader.read(reader.ended)) != null) {
+    if (!writer.write(line)) {
+      return writer.drain(pipe);
     }
   }
 

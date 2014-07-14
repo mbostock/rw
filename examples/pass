@@ -4,7 +4,7 @@ var rw = require("../");
 
 var reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
     writer = rw.fileWriter("/dev/stdout"),
-    pipe = rw.pipe().bufferLength(20);
+    pipe = rw.pipe();
 
 pass(reader, pipe);
 pass(pipe, writer);

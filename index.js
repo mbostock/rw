@@ -1,5 +1,6 @@
 exports.reader = require("./lib/rw/reader");
 exports.writer = require("./lib/rw/writer");
+exports.bridge = require("./lib/rw/bridge");
 
 exports.fileReader = require("./lib/rw/file-reader");
 exports.fileWriter = require("./lib/rw/file-writer");

@@ -10,19 +10,35 @@ var rw = require("../");
 
 var writer = rw.fileWriter("/dev/stdout"),
     reader = rw.fileReader(process.argv[2] || "/dev/stdin"),
+    bridge = rw.bridge(),
     zero = "0".charCodeAt(0);
 
-reader.fill(function pipe(error) {
-  if (error) throw error;
-  var input;
+transform(reader, bridge);
+pipe(bridge, writer);
 
-  while ((input = reader.read(1)) != null) {
-    var output = new Buffer(input[0]);
-    output.fill(zero);
-    if (!writer.write(output)) return writer.drain(pipe);
-  }
+function transform(reader, writer, callback) {
+  reader.fill(function pipe(error) {
+    if (error) return callback(error);
+    var input;
 
-  if (reader.ended) return writer.end();
+    while ((input = reader.read(1)) != null) {
+      var output = new Buffer(input[0]);
+      output.fill(zero);
+      if (!writer.write(output)) return writer.drain(pipe);
+    }
 
-  reader.fill(pipe);
-});
+    if (reader.ended) return writer.end(callback);
+    reader.fill(pipe);
+  });
+}
+
+function pipe(reader, writer, callback) {
+  reader.fill(function pipe(error) {
+    if (error) return callback(error);
+    var data = reader.read();
+    if (data != null && !writer.write(data)) return writer.drain(pipe);
+    if (reader.ended) return writer.end(callback);
+    reader.fill(pipe);
+  });
+}
+

@@ -1,6 +1,5 @@
 exports.reader = require("./lib/rw/reader");
 exports.writer = require("./lib/rw/writer");
-exports.pipe = require("./lib/rw/pipe");
 
 exports.fileReader = require("./lib/rw/file-reader");
 exports.fileWriter = require("./lib/rw/file-writer");
@@ -12,3 +11,5 @@ exports.writeFileSync = require("./lib/rw/write-file-sync");
 
 exports.lineParser = require("./lib/rw/line-parser");
 exports.dsvParser = require("./lib/rw/dsv-parser");
+
+exports.pipe = require("./lib/rw/pipe");

@@ -14,7 +14,7 @@ var pattern = new RegExp(process.argv[2]),
     writer = rw.fileWriter("/dev/stdout"),
     lineParser = rw.lineParser();
 
-reader.fill(function pipe(error) {
+reader.fill(function flow(error) {
   if (error) throw error;
   var data = reader.read(),
       line;
@@ -23,11 +23,11 @@ reader.fill(function pipe(error) {
 
   while ((line = lineParser.pop(reader.ended)) != null) {
     if (pattern.test(line) && !writer.write(line + "\n")) {
-      return writer.drain(pipe);
+      return writer.drain(flow);
     }
   }
 
   if (reader.ended) return writer.end();
 
-  reader.fill(pipe);
+  reader.fill(flow);
 });

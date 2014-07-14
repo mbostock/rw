@@ -30,10 +30,10 @@ function rot13(buffer) {
   return buffer;
 }
 
-reader.fill(function pipe(error) {
+reader.fill(function flow(error) {
   if (error) throw error;
   var data = reader.read();
-  if (data && !writer.write(rot13(data))) return writer.drain(pipe);
+  if (data && !writer.write(rot13(data))) return writer.drain(flow);
   if (reader.ended) return writer.end();
-  reader.fill(pipe);
+  reader.fill(flow);
 });

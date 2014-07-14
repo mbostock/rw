@@ -23,11 +23,11 @@ else inputs.push("/dev/stdin");
   if (!input) return writer.end();
   var reader = rw.fileReader(input);
 
-  reader.fill(function pipe(error) {
+  reader.fill(function flow(error) {
     if (error) throw error;
     var data = reader.read();
-    if (data && !writer.write(data)) return writer.drain(pipe);
+    if (data && !writer.write(data)) return writer.drain(flow);
     if (reader.ended) return writer.drain(cat);
-    reader.fill(pipe);
+    reader.fill(flow);
   });
 })();

@@ -11,12 +11,12 @@ var writer = rw.fileWriter("/dev/stdout"),
     data = new Buffer("yes\n"),
     i = 1e6;
 
-(function pipe(error) {
+(function flow(error) {
   if (error) throw error;
 
   while (--i >= 0) {
     if (!writer.write(data)) {
-      return writer.drain(pipe);
+      return writer.drain(flow);
     }
   }
 

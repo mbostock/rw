@@ -14,14 +14,16 @@ var rw = require("../");
 
 var writer = rw.fileWriter("/dev/stdout");
 
-var inputs = process.argv.slice(2);
-if (inputs.length) inputs.reverse();
-else inputs.push("/dev/stdin");
+var readers = [rw.streamReader(process.stdin)];
+
+// var inputs = process.argv.slice(2);
+// if (inputs.length) inputs.reverse();
+// else inputs.push("/dev/stdin");
 
 (function cat() {
-  var input = inputs.pop();
-  if (!input) return writer.end();
-  var reader = rw.fileReader(input);
+  var reader = readers.pop();
+  if (!reader) return writer.end();
+  // var reader = rw.fileReader(input);
 
   reader.fill(function flow(error) {
     if (error) throw error;

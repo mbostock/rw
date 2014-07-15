@@ -13,3 +13,5 @@ exports.lineParser = require("./lib/rw/line-parser");
 exports.dsvParser = require("./lib/rw/dsv-parser");
 
 exports.pipe = require("./lib/rw/pipe");
+
+exports.streamReader = require("./lib/rw/stream-reader");

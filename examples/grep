@@ -14,14 +14,14 @@ var pattern = new RegExp(process.argv[2]),
     writer = rw.fileWriter("/dev/stdout"),
     lineParser = rw.lineParser();
 
-reader.fill(function flow(error) {
+reader.fill(function flow(error, length) {
   if (error) throw error;
   var data = reader.read(),
       line;
 
   if (data) lineParser.push(data);
 
-  while ((line = lineParser.pop(reader.ended)) != null) {
+  while ((line = lineParser.pop(!length)) != null) {
     if (pattern.test(line) && !writer.write(line + "\n")) {
       return writer.drain(flow);
     }

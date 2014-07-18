@@ -4,9 +4,9 @@
 // more input files to stdout. Each input file is processed sequentially.
 //
 // When the writer is full (as when writer.write returns false), the writer is
-// drained before subsequent data is read. When the reader ends (as when
-// reader.ended is true), the writer is drained before the next input file is
-// read, flushing the output in case an error occurs on the next file.
+// drained before subsequent data is read. When the reader ends (as when length
+// is zero), the writer is drained before the next input file is read, flushing
+// the output in case an error occurs on the next file.
 //
 // [1] https://en.wikipedia.org/wiki/Cat_(Unix)
 
@@ -23,11 +23,11 @@ else inputs.push("/dev/stdin");
   if (!input) return writer.end();
   var reader = rw.fileReader(input);
 
-  reader.fill(function flow(error) {
+  reader.fill(function flow(error, length) {
     if (error) throw error;
     var data = reader.read();
     if (data && !writer.write(data)) return writer.drain(flow);
-    if (reader.ended) return writer.drain(cat);
+    if (!length) return writer.drain(cat);
     reader.fill(flow);
   });
 })();

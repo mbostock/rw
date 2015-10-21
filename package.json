@@ -17,5 +17,6 @@
   "repository": {
     "type": "git",
     "url": "http://github.com/mbostock/rw.git"
-  }
+  },
+  "license": "BSD"
 }

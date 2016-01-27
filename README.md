@@ -1,4 +1,4 @@
-# stdin & stdout, the right way
+# rw - Now stdin and stdout are files.
 
 How do you read a file from stdin? If you thought,
 
@@ -58,8 +58,6 @@ Error: write EPIPE
 ```
 
 Huh.
-
-## rw
 
 The **rw** module fixes these problems. It provides an interface just like readFile, readFileSync, writeFile and writeFileSync, but with implementations that work the way you expect on stdin and stdout. If you use these methods on files other than /dev/stdin or /dev/stdout, they simply delegate to the fs methods, so you can trust that they behave identically to the methods you’re used to.
 

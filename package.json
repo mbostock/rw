@@ -1,7 +1,7 @@
 {
   "name": "rw",
-  "version": "0.1.4",
-  "description": "Wrappers of fs.{read,write}File that work for /dev/std{in,out}.",
+  "version": "1.0.0",
+  "description": "Now stdin and stdout are files.",
   "keywords": [
     "fs",
     "readFile",
@@ -9,13 +9,18 @@
     "stdin",
     "stdout"
   ],
-  "main": "index.js",
+  "homepage": "https://github.com/mbostock/rw",
+  "license": "BSD-3-Clause",
   "author": {
     "name": "Mike Bostock",
     "url": "http://bost.ocks.org/mike"
   },
+  "main": "index.js",
   "repository": {
     "type": "git",
     "url": "http://github.com/mbostock/rw.git"
+  },
+  "scripts": {
+    "test": "test/run-tests && eslint index.js lib"
   }
 }

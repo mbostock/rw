@@ -87,10 +87,10 @@ Reads the file at the specified *path* completely into memory, invoking the spec
 
 Reads the file at the specified *path* completely into memory, synchronously, returning the data. If an error occurred during read, this function throws an error instead. If *options* is a string, it specifies the encoding to use, in which case the read data will be a string; otherwise *options* is an object, and may specify encoding and flag properties. This method is a drop-in replacement for [fs.readFileSync](https://nodejs.org/api/fs.html#fs_fs_readfilesync_file_options) and fixes the behavior of special files such as /dev/stdin.
 
-<a name="writeFile" href="#writeFile">#</a> rw.<b>writeFile</b>(<i>path</i>, <i>data</i>, [, <i>options</i>], <i>callback</i>)
+<a name="writeFile" href="#writeFile">#</a> rw.<b>writeFile</b>(<i>path</i>, <i>data</i>[, <i>options</i>], <i>callback</i>)
 
 Writes the specified *data* (completely in memory) to a file at the specified *path*, invoking the specified *callback* once the data is completely written and the file is closed. The *callback* is invoked with a single argument: the *error* that occurred during write (hopefully null). If *options* is a string, it specifies the encoding to use, in which case the *data* must be a string; otherwise *options* is an object, and may specify encoding, mode and flag properties. This method is a drop-in replacement for [fs.writeFile](https://nodejs.org/api/fs.html#fs_fs_writefile_file_data_options_callback) and fixes the behavior of special files such as /dev/stdout.
 
-<a name="writeFileSync" href="#writeFileSync">#</a> rw.<b>writeFileSync</b>(<i>path</i>, <i>data</i>, [, <i>options</i>])
+<a name="writeFileSync" href="#writeFileSync">#</a> rw.<b>writeFileSync</b>(<i>path</i>, <i>data</i>[, <i>options</i>])
 
 Writes the specified *data* (completely in memory) to a file at the specified *path*, synchronously, returning once the data is completely written and the file is closed. Throws an *error* if one occurs during write. If *options* is a string, it specifies the encoding to use, in which case the *data* must be a string; otherwise *options* is an object, and may specify encoding, mode and flag properties. This method is a drop-in replacement for [fs.writeFileSync](https://nodejs.org/api/fs.html#fs_fs_writefilesync_file_data_options) and fixes the behavior of special files such as /dev/stdout.

@@ -94,3 +94,19 @@ Writes the specified *data* (completely in memory) to a file at the specified *p
 <a name="writeFileSync" href="#writeFileSync">#</a> rw.<b>writeFileSync</b>(<i>path</i>, <i>data</i>[, <i>options</i>])
 
 Writes the specified *data* (completely in memory) to a file at the specified *path*, synchronously, returning once the data is completely written and the file is closed. Throws an *error* if one occurs during write. If *options* is a string, it specifies the encoding to use, in which case the *data* must be a string; otherwise *options* is an object, and may specify encoding, mode and flag properties. This method is a drop-in replacement for [fs.writeFileSync](https://nodejs.org/api/fs.html#fs_fs_writefilesync_file_data_options) and fixes the behavior of special files such as /dev/stdout.
+
+<a name="dash_readFile" href="#dash_readFile">#</a> rw.dash.<b>readFile</b>(<i>path</i>[, <i>options</i>], <i>callback</i>)
+
+Equivalent to [rw.readFile](#readFile), except treats a *path* of `-` as `/dev/stdin`. Useful for command-line arguments.
+
+<a name="dash_readFileSync" href="#dash_readFileSync">#</a> rw.dash.<b>readFileSync</b>(<i>path</i>[, <i>options</i>])
+
+Equivalent to [rw.readFileSync](#readFileSync), except treats a *path* of `-` as `/dev/stdin`. Useful for command-line arguments.
+
+<a name="dash_writeFile" href="#dash_writeFile">#</a> rw.dash.<b>writeFile</b>(<i>path</i>, <i>data</i>[, <i>options</i>], <i>callback</i>)
+
+Equivalent to [rw.writeFile](#writeFile), except treats a *path* of `-` as `/dev/stdout`. Useful for command-line arguments.
+
+<a name="dash_writeFileSync" href="#dash_writeFileSync">#</a> rw.dash.<b>writeFileSync</b>(<i>path</i>, <i>data</i>[, <i>options</i>])
+
+Equivalent to [rw.writeFileSync](#writeFileSync), except treats a *path* of `-` as `/dev/stdout`. Useful for command-line arguments.

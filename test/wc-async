@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-var rw = require("../");
+var rw = require("../").dash;
 
-rw.readFile(process.argv[2] || "/dev/stdin", "utf8", function(error, contents) {
+rw.readFile(process.argv[2] || "-", "utf8", function(error, contents) {
   if (error) throw error;
   console.log(contents.length);
 });

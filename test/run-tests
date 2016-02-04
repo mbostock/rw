@@ -15,6 +15,8 @@ function test()
    fi
 }
 
+test/encoding-sync; test $? "encoding-sync applies the specified encodings"
+test/encoding-async; test $? "encoding-async applies the specified encodings"
 [ "$(test/wc-async $FILE)" = "100000" ]; test $? "wc-async reads an entire file"
 [ "$(test/wc-sync $FILE)" = "100000" ]; test $? "wc-sync reads an entire file"
 [ "$(test/wc-async < $FILE)" = "100000" ]; test $? "wc-async reads an entire file from stdin"
@@ -46,4 +48,4 @@ function test()
 [ "$(cat $FILE 2> /dev/null | head -n 100 | test/cat-sync | test/wc-async)" = "1000" ]; test $? "cat-sync reads the head of a file from a pipe and writes it to wc-async"
 [ "$(cat $FILE 2> /dev/null | head -n 100 | test/cat-sync | test/wc-sync)" = "1000" ]; test $? "cat-sync reads the head of a file from a pipe and writes it to wc-sync"
 
-rm -f -- $FILE
+rm -f -- $FILE test/encoding-sync.out test/encoding-async.out

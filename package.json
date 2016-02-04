@@ -1,6 +1,6 @@
 {
   "name": "rw",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Now stdin and stdout are files.",
   "keywords": [
     "fs",
@@ -22,5 +22,8 @@
   },
   "scripts": {
     "test": "test/run-tests && eslint index.js lib"
+  },
+  "devDependencies": {
+    "d3-queue": "2"
   }
 }

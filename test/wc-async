@@ -2,7 +2,7 @@
 
 var rw = require("../").dash;
 
-rw.readFile(process.argv[2] || "-", "utf8", function(error, contents) {
+rw.readFile(process.argv[2] || "-", function(error, contents) {
   if (error) throw error;
   console.log(contents.length);
 });

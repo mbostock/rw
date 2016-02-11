@@ -77,6 +77,10 @@ And rw automatically squashes EPIPE errors, so you can pipe the output of your p
 
 To install, `npm install rw`.
 
+### Note
+
+If you want to read synchronously from stdin, you cannot also use process.stdin in the same program! Likewise, if you want to write synchronously to stdout or stderr, you can’t use process.stdout or process.stderr, respectively. (This includes using console.log and equivalents!) Failure to heed this warning may result in error: EAGAIN, resource temporarily unavailable. Unfortunately, it does not appear possible for this library to fix this issue automatically, so please use caution.
+
 ## API Reference
 
 <a name="readFile" href="#readFile">#</a> rw.<b>readFile</b>(<i>path</i>[, <i>options</i>], <i>callback</i>)

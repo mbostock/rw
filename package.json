@@ -23,7 +23,7 @@
   "scripts": {
     "test": "test/run-tests && eslint index.js lib",
     "prepublish": "npm test",
-    "postpublish": "VERSION=`node -e 'console.log(require(\"./package.json\").version)'`; git push && git tag -am \"Release $VERSION.\" v${VERSION} && git push --tags"
+    "postpublish": "git push && git push --tags"
   },
   "devDependencies": {
     "d3-queue": "2"

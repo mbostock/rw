@@ -22,6 +22,8 @@ Error: UNKNOWN, unknown error
     at Object.fs.writeFileSync (fs.js:975:21)
 ```
 
+(Also, this doesn’t work on Windows, because Windows doesn’t support /dev/stdout, /dev/stdin and /dev/stderr!)
+
 Shucks. So what should you do?
 
 You could use a different pattern for reading from stdin:
@@ -80,6 +82,8 @@ To install, `npm install rw`.
 ### Note
 
 If you want to read synchronously from stdin using [readFileSync](#readFileSync), you cannot also use process.stdin in the same program. Likewise, if you want to write synchronously to stdout or stderr using [writeFileSync](#writeFileSync), you cannot use process.stdout or process.stderr, respectively. (This includes using console.log and the like!) Failure to heed this warning may result in error: EAGAIN, resource temporarily unavailable. Unfortunately, it does not appear possible for this library to fix this issue automatically, so please use caution.
+
+Only the asynchronous methods [readFile](#readFile) and [writeFile](#writeFile) are supported on Windows. Node has no synchronous API for reading from process.[stdin](https://nodejs.org/api/process.html#process_process_stdin) or writing to process.[stdout](https://nodejs.org/api/process.html#process_process_stdout) or process.[stderr](https://nodejs.org/api/process.html#process_process_stderr), so you’re out of luck!
 
 ## API Reference
 

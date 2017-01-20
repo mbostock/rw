@@ -26,6 +26,7 @@
     "postpublish": "git push && git push --tags"
   },
   "devDependencies": {
-    "d3-queue": "2"
+    "d3-queue": "3",
+    "eslint": "3"
   }
 }

@@ -27,6 +27,6 @@
   },
   "devDependencies": {
     "d3-queue": "3",
-    "eslint": "3"
+    "eslint": "6"
   }
 }
